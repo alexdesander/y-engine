@@ -1,0 +1,15 @@
+[package]
+name = "y-engine"
+version = "0.1.0"
+edition = "2021"
+
+[workspace.metadata.clippy]
+args = ["-W", "clippy::pedantic"]
+
+[dependencies]
+softbuffer = "0.4"
+winit = "0.30"
+image = "0.25"
+wgpu = "24"
+pollster = "0.4.0"
+crossbeam = "0.8.4"
