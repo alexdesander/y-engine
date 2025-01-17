@@ -42,8 +42,14 @@ pub struct State {
 impl State {
     pub fn new(event_loop: &ActiveEventLoop) -> Self {
         event_loop.set_control_flow(ControlFlow::Wait);
+
+        let splash_image = image::load_from_memory(SPLASH_IMAGE_RAW)
+            .unwrap()
+            .to_rgba8();
+
         let monitor_size = event_loop.primary_monitor().unwrap().size();
-        let (window_width, window_height) = (252, 256);
+        let (window_width, window_height) =
+            (splash_image.width().max(4), splash_image.height().max(4));
         let window = event_loop
             .create_window(
                 WindowAttributes::default()
@@ -63,10 +69,6 @@ impl State {
         let softbuffer_context = softbuffer::Context::new(window.clone()).unwrap();
         let softbuffer_surface =
             softbuffer::Surface::new(&softbuffer_context, window.clone()).unwrap();
-
-        let splash_image = image::load_from_memory(SPLASH_IMAGE_RAW)
-            .unwrap()
-            .to_rgba8();
 
         let (msg_tx, msg_rx) = crossbeam::channel::unbounded();
 
@@ -108,6 +110,8 @@ impl State {
                     });
                 }
             }
+            // So the engine checks if the transition from starting to running should happen
+            self.window.request_redraw();
         }
         match event {
             WindowEvent::CloseRequested => {
@@ -129,6 +133,10 @@ impl State {
             }
             _ => {}
         }
+    }
+
+    pub fn finished(&self) -> bool {
+        self.render_core.is_some()
     }
 
     fn draw_y_engine_splash(&mut self) {
