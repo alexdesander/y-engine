@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
 use crossbeam::channel::Sender;
-use rwh::{HasDisplayHandle, HasWindowHandle};
 use wgpu::*;
 use winit::window::Window;
 
@@ -17,10 +16,7 @@ pub fn init_gpu(msg_tx: Sender<StateMsg>, window: Arc<Window>) {
 
     let surface = unsafe {
         instance
-            .create_surface_unsafe(SurfaceTargetUnsafe::RawHandle {
-                raw_display_handle: window.display_handle().unwrap().as_raw(),
-                raw_window_handle: window.window_handle().unwrap().as_raw(),
-            })
+            .create_surface_unsafe(SurfaceTargetUnsafe::from_window(&window).unwrap())
             .unwrap()
     };
 
@@ -43,7 +39,6 @@ pub fn init_gpu(msg_tx: Sender<StateMsg>, window: Arc<Window>) {
     .unwrap();
 
     let surface_caps = surface.get_capabilities(&adapter);
-
     let surface_format = surface_caps
         .formats
         .iter()
@@ -61,6 +56,7 @@ pub fn init_gpu(msg_tx: Sender<StateMsg>, window: Arc<Window>) {
         view_formats: vec![],
         desired_maximum_frame_latency: 2,
     };
+    surface.configure(&device, &surface_config);
 
     let _ = msg_tx.send(StateMsg::InitializedGpu {
         instance,

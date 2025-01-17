@@ -27,6 +27,9 @@ impl State {
             WindowEvent::Resized(size) => {
                 self.app.window_resized(size.width, size.height);
             }
+            WindowEvent::RedrawRequested => {
+                self.app.window_redraw();
+            }
             _ => {}
         }
     }

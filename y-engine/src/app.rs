@@ -12,4 +12,5 @@ pub trait App {
     // Window Events
     fn window_resized(&mut self, width: u32, height: u32);
     fn window_close_requested(&mut self, winit_event_loop: &ActiveEventLoop);
+    fn window_redraw(&mut self);
 }

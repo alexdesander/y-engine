@@ -9,6 +9,7 @@ use winit::{
 
 pub mod app;
 pub mod state;
+pub mod util;
 
 pub struct YEngine<T: App + 'static> {
     inner: Option<YEngineInner<T>>,
