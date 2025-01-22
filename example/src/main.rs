@@ -1,14 +1,27 @@
 use std::sync::Arc;
 
-use winit::{event_loop::ActiveEventLoop, window::Window};
-use y_engine::{app::App, state::common::render::RenderCore, YEngine};
+use winit::{event::{ElementState, MouseButton}, event_loop::ActiveEventLoop, keyboard::Key, window::Window};
+use y_engine::{app::App, state::common::render::RenderCore, util::input::InputManager, YEngine};
 
 struct MyApp {
     _window: Arc<Window>,
     render_core: RenderCore,
+    input_manager: InputManager,
 }
 
 impl App for MyApp {
+    fn new(window: Arc<Window>, render_core: RenderCore) -> Box<Self> {
+        window.set_resizable(true);
+        window.set_decorations(true);
+        window.set_title("Y-ENGINE EXAMPLE");
+
+        Box::new(MyApp {
+            _window: window,
+            render_core,
+            input_manager: InputManager::default(),
+        })
+    }
+
     fn window_resized(&mut self, width: u32, height: u32) {
         if width > 0 && height > 0 {
             self.render_core.surface_config.width = width;
@@ -31,15 +44,12 @@ impl App for MyApp {
         }
     }
 
-    fn new(window: Arc<Window>, render_core: RenderCore) -> Box<Self> {
-        window.set_resizable(true);
-        window.set_decorations(true);
-        window.set_title("Y-ENGINE EXAMPLE");
+    fn mouse_button_input(&mut self, button: MouseButton, state: ElementState) {
+        self.input_manager.handle_mouse_button_input(button, state);
+    }
 
-        Box::new(MyApp {
-            _window: window,
-            render_core,
-        })
+    fn keyboard_button_input(&mut self, key: Key, state: ElementState) {
+        self.input_manager.handle_keyboard_button_input(key, state);
     }
 }
 

@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use winit::{event::WindowEvent, event_loop::ActiveEventLoop, window::Window};
+use winit::{event::{KeyEvent, WindowEvent}, event_loop::ActiveEventLoop, window::Window};
 
 use crate::app::App;
 
@@ -29,6 +29,12 @@ impl State {
             }
             WindowEvent::RedrawRequested => {
                 self.app.window_redraw();
+            }
+            WindowEvent::MouseInput { state, button, .. } => {
+                self.app.mouse_button_input(button, state);
+            }
+            WindowEvent::KeyboardInput { event, .. } => {
+                self.app.keyboard_button_input(event.logical_key, event.state);
             }
             _ => {}
         }
