@@ -20,6 +20,9 @@ impl State {
     }
 
     pub fn handle_window_event(&mut self, event_loop: &ActiveEventLoop, event: WindowEvent) {
+        if self.app.window_raw(&event) {
+            return;
+        }
         match event {
             WindowEvent::CloseRequested => {
                 self.app.window_close_requested(event_loop);

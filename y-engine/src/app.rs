@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use winit::{
     dpi::PhysicalPosition,
-    event::{ElementState, MouseButton, MouseScrollDelta, TouchPhase},
+    event::{ElementState, MouseButton, MouseScrollDelta, TouchPhase, WindowEvent},
     event_loop::ActiveEventLoop,
     keyboard::Key,
     window::Window,
@@ -17,6 +17,10 @@ pub trait App {
         Self: Sized;
 
     // Window events
+    /// Return true if the event was consumed and should not be passed to the next handler.
+    fn window_raw(&mut self, event: &WindowEvent) -> bool {
+        false
+    }
     fn window_resized(&mut self, width: u32, height: u32) {}
     fn window_close_requested(&mut self, winit_event_loop: &ActiveEventLoop) {}
     fn window_redraw(&mut self) {}
