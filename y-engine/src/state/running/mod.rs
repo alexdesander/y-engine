@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use winit::{event::{KeyEvent, WindowEvent}, event_loop::ActiveEventLoop, window::Window};
+use winit::{event::WindowEvent, event_loop::ActiveEventLoop, window::Window};
 
 use crate::app::App;
 
@@ -33,8 +33,21 @@ impl State {
             WindowEvent::MouseInput { state, button, .. } => {
                 self.app.mouse_button_input(button, state);
             }
+            WindowEvent::MouseWheel { delta, phase, .. } => {
+                self.app.mouse_wheel_input(delta, phase);
+            }
             WindowEvent::KeyboardInput { event, .. } => {
-                self.app.keyboard_button_input(event.logical_key, event.state);
+                self.app
+                    .keyboard_button_input(event.logical_key, event.state);
+            }
+            WindowEvent::CursorMoved { position, .. } => {
+                self.app.cursor_moved(position);
+            }
+            WindowEvent::CursorLeft { .. } => {
+                self.app.cursor_left_window();
+            }
+            WindowEvent::CursorEntered { .. } => {
+                self.app.cursor_entered_window();
             }
             _ => {}
         }

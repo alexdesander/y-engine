@@ -1,6 +1,12 @@
 use std::sync::Arc;
 
-use winit::{event::{ElementState, MouseButton}, event_loop::ActiveEventLoop, keyboard::Key, window::Window};
+use winit::{
+    dpi::PhysicalPosition,
+    event::{ElementState, MouseButton, MouseScrollDelta, TouchPhase},
+    event_loop::ActiveEventLoop,
+    keyboard::Key,
+    window::Window,
+};
 use y_engine::{app::App, state::common::render::RenderCore, util::input::InputManager, YEngine};
 
 struct MyApp {
@@ -50,6 +56,22 @@ impl App for MyApp {
 
     fn keyboard_button_input(&mut self, key: Key, state: ElementState) {
         self.input_manager.handle_keyboard_button_input(key, state);
+    }
+
+    fn mouse_wheel_input(&mut self, delta: MouseScrollDelta, phase: TouchPhase) {
+        self.input_manager.handle_mouse_wheel_input(delta, phase);
+    }
+
+    fn cursor_moved(&mut self, position: PhysicalPosition<f64>) {
+        self.input_manager.handle_cursor_moved(position);
+    }
+
+    fn cursor_entered_window(&mut self) {
+        self.input_manager.handle_cursor_entered_window();
+    }
+
+    fn cursor_left_window(&mut self) {
+        self.input_manager.handle_cursor_left_window();
     }
 }
 
