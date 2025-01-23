@@ -2,6 +2,12 @@
 name = "y-engine"
 version = "0.1.0"
 edition = "2021"
+authors = ["alexdesander <alexdesander@tuta.io>"]
+description = "A micro-engine that handles boilerplate (winit, wgpu, etc.) and adds quality-of-life features for easy application setup."
+keywords = ["gamedev", "engine", "wgpu", "winit"]
+categories = ["game-development"]
+readme = "README.md"
+repository = "https://www.github.com/alexdesander/y-engine"
 
 [workspace.metadata.clippy]
 args = ["-W", "clippy::pedantic"]
