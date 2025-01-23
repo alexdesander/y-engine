@@ -7,6 +7,7 @@ description = "A micro-engine that handles boilerplate (winit, wgpu, etc.) and a
 keywords = ["gamedev", "engine", "wgpu", "winit"]
 categories = ["game-development"]
 repository = "https://www.github.com/alexdesander/y-engine"
+license = "MIT OR Apache-2.0"
 
 [workspace.metadata.clippy]
 args = ["-W", "clippy::pedantic"]
