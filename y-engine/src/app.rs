@@ -18,7 +18,7 @@ pub trait App {
 
     // Window events
     /// Return true if the event was consumed and should not be passed to the next handler.
-    fn window_raw(&mut self, event: &WindowEvent) -> bool {
+    fn window_raw(&mut self, event: &WindowEvent, winit_event_loop: &ActiveEventLoop) -> bool {
         false
     }
     fn window_resized(&mut self, width: u32, height: u32) {}

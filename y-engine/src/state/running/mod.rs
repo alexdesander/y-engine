@@ -20,7 +20,7 @@ impl State {
     }
 
     pub fn handle_window_event(&mut self, event_loop: &ActiveEventLoop, event: WindowEvent) {
-        if self.app.window_raw(&event) {
+        if self.app.window_raw(&event, event_loop) {
             return;
         }
         match event {
