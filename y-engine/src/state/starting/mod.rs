@@ -47,7 +47,10 @@ impl State {
             .unwrap()
             .to_rgba8();
 
-        let monitor_size = event_loop.primary_monitor().unwrap().size();
+        let monitor_size = event_loop
+            .primary_monitor()
+            .unwrap_or(event_loop.available_monitors().next().unwrap())
+            .size();
         let (window_width, window_height) =
             (splash_image.width().max(4), splash_image.height().max(4));
         let window = event_loop
