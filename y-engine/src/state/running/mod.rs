@@ -20,10 +20,10 @@ impl State {
     }
 
     pub fn handle_window_event(&mut self, event_loop: &ActiveEventLoop, event: WindowEvent) {
-        if self.app.window_raw(&event, event_loop) {
+        if self.app.window_raw_before(&event, event_loop) {
             return;
         }
-        match event {
+        match &event {
             WindowEvent::CloseRequested => {
                 self.app.window_close_requested(event_loop);
             }
@@ -34,17 +34,17 @@ impl State {
                 self.app.window_redraw();
             }
             WindowEvent::MouseInput { state, button, .. } => {
-                self.app.mouse_button_input(button, state);
+                self.app.mouse_button_input(*button, *state);
             }
             WindowEvent::MouseWheel { delta, phase, .. } => {
-                self.app.mouse_wheel_input(delta, phase);
+                self.app.mouse_wheel_input(*delta, *phase);
             }
             WindowEvent::KeyboardInput { event, .. } => {
                 self.app
-                    .keyboard_button_input(event.logical_key, event.state);
+                    .keyboard_button_input(event.logical_key.clone(), event.state);
             }
             WindowEvent::CursorMoved { position, .. } => {
-                self.app.cursor_moved(position);
+                self.app.cursor_moved(*position);
             }
             WindowEvent::CursorLeft { .. } => {
                 self.app.cursor_left_window();
@@ -54,5 +54,6 @@ impl State {
             }
             _ => {}
         }
+        self.app.window_raw_after(event, event_loop);
     }
 }

@@ -17,10 +17,13 @@ pub trait App {
         Self: Sized;
 
     // Window events
+    /// Runs before any other window event handlers.
     /// Return true if the event was consumed and should not be passed to the next handler.
-    fn window_raw(&mut self, event: &WindowEvent, winit_event_loop: &ActiveEventLoop) -> bool {
+    fn window_raw_before(&mut self, event: &WindowEvent, winit_event_loop: &ActiveEventLoop) -> bool {
         false
     }
+    /// Runs after all other window event handlers.
+    fn window_raw_after(&mut self, event: WindowEvent, winit_event_loop: &ActiveEventLoop) {}
     fn window_resized(&mut self, width: u32, height: u32) {}
     fn window_close_requested(&mut self, winit_event_loop: &ActiveEventLoop) {}
     fn window_redraw(&mut self) {}
