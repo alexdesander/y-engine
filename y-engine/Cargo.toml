@@ -6,7 +6,7 @@ authors = ["alexdesander <alexdesander@tuta.io>"]
 description = "A micro-engine that handles boilerplate (winit, wgpu, etc.) and adds quality-of-life features for easy application setup."
 keywords = ["gamedev", "engine", "wgpu", "winit"]
 categories = ["game-development"]
-repository = "https://www.github.com/alexdesander/y-engine"
+repository = "https://github.com/alexdesander/y-engine"
 license = "MIT OR Apache-2.0"
 
 [workspace.metadata.clippy]
